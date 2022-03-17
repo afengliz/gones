@@ -44,6 +44,9 @@ func (c *Context) Value(key interface{}) interface{} {
 	return c.ctx.Value(key)
 }
 func (c *Context) Json(status int, obj interface{}) error {
+	if c.hasTimeOut {
+		return nil
+	}
 	c.response.Header().Set("Content-Type", "application/json")
 	c.response.WriteHeader(status)
 	bytes, err := json.Marshal(obj)
